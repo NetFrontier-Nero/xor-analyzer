@@ -27,11 +27,11 @@ echo Invalid choice. Try again.
 timeout /t 2 >nul
 goto MENU
 
-:: ─────────────────────────────────────────────
+:: ---------------------------------------------
 :COMPARE
 cls
 echo ============================================
-echo    OPTION 1 — KEY RECOVERY (XOR Cancel)
+echo    OPTION 1 - KEY RECOVERY (XOR Cancel)
 echo ============================================
 echo.
 echo Drag and drop FILE 1 (first ciphertext) then press Enter:
@@ -66,11 +66,11 @@ echo.
 pause
 goto MENU
 
-:: ─────────────────────────────────────────────
+:: ---------------------------------------------
 :DECRYPT
 cls
 echo ============================================
-echo      OPTION 2 — DECRYPT FILE
+echo      OPTION 2 - DECRYPT FILE
 echo ============================================
 echo.
 echo Drag and drop the ENCRYPTED FILE then press Enter:
