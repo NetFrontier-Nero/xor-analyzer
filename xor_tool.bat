@@ -37,7 +37,6 @@ echo.
 echo Drag and drop FILE 1 (first ciphertext) then press Enter:
 set /p FILE1= FILE 1: 
 
-:: Strip surrounding quotes if user dragged
 set FILE1=%FILE1:"=%
 
 if not exist "%FILE1%" (
@@ -60,8 +59,15 @@ if not exist "%FILE2%" (
 
 echo.
 echo Running key recovery...
+echo Output will be saved to: %~dp0output.txt
 echo.
-python "%~dp0xor_tool.py" compare "%FILE1%" "%FILE2%"
+python "%~dp0xor_tool.py" compare "%FILE1%" "%FILE2%" "%~dp0output.txt"
+
+echo.
+echo ============================================
+echo Done! Results saved to:
+echo %~dp0output.txt
+echo ============================================
 echo.
 pause
 goto MENU
@@ -90,8 +96,15 @@ set /p HEXKEY= KEY (hex):
 
 echo.
 echo Decrypting...
+echo Output will be saved to: %~dp0output.txt
 echo.
-python "%~dp0xor_tool.py" decrypt "%FILE1%" "%HEXKEY%"
+python "%~dp0xor_tool.py" decrypt "%FILE1%" "%HEXKEY%" "%~dp0output.txt"
+
+echo.
+echo ============================================
+echo Done! Results saved to:
+echo %~dp0output.txt
+echo ============================================
 echo.
 pause
 goto MENU
