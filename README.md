@@ -48,7 +48,7 @@ No third-party packages required — uses the Python standard library only.
 
 ---
 
-## 🚀 Usage
+## Usage
 
 Double-click `xor_tool.bat` to launch the menu, then choose an option.
 
@@ -160,6 +160,6 @@ xor-analyzer/
 
 ---
 
-## 📜 License
+##  License
 
 MIT — free to use, modify, and share.
