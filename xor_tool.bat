@@ -2,6 +2,32 @@
 setlocal enabledelayedexpansion
 title XOR Key Recovery Tool
 
+:: ── Find Python ──────────────────────────────────────────────────────────────
+:: Try 'py' launcher first (standard Windows installer), then 'python', then 'python3'
+set PYTHON=
+where py >nul 2>&1 && set PYTHON=py
+if "%PYTHON%"=="" where python >nul 2>&1 && set PYTHON=python
+if "%PYTHON%"=="" where python3 >nul 2>&1 && set PYTHON=python3
+
+if "%PYTHON%"=="" (
+    cls
+    echo ============================================
+    echo   ERROR: Python not found
+    echo ============================================
+    echo.
+    echo Python is required but was not found on PATH.
+    echo.
+    echo 1. Download Python from: https://www.python.org/downloads/
+    echo 2. During install, tick "Add Python to PATH"
+    echo 3. Restart this tool after installing
+    echo.
+    pause
+    exit /b 1
+)
+
+echo [OK] Found Python: %PYTHON%
+timeout /t 1 >nul
+
 :MENU
 cls
 echo ============================================
@@ -61,13 +87,25 @@ echo.
 echo Running key recovery...
 echo Output will be saved to: %~dp0output.txt
 echo.
-python "%~dp0xor_tool.py" compare "%FILE1%" "%FILE2%" "%~dp0output.txt"
+
+%PYTHON% "%~dp0xor_tool.py" compare "%FILE1%" "%FILE2%" "%~dp0output.txt"
+set PYEXIT=%ERRORLEVEL%
 
 echo.
-echo ============================================
-echo Done! Results saved to:
-echo %~dp0output.txt
-echo ============================================
+if %PYEXIT% NEQ 0 (
+    echo ============================================
+    echo ERROR: Python script failed (exit code %PYEXIT%)
+    echo Check %~dp0error_log.txt for details
+    echo ============================================
+) else (
+    echo ============================================
+    echo Done! Results saved to:
+    echo %~dp0output.txt
+    echo ============================================
+    echo.
+    echo Opening output.txt...
+    start notepad "%~dp0output.txt"
+)
 echo.
 pause
 goto MENU
@@ -98,13 +136,25 @@ echo.
 echo Decrypting...
 echo Output will be saved to: %~dp0output.txt
 echo.
-python "%~dp0xor_tool.py" decrypt "%FILE1%" "%HEXKEY%" "%~dp0output.txt"
+
+%PYTHON% "%~dp0xor_tool.py" decrypt "%FILE1%" "%HEXKEY%" "%~dp0output.txt"
+set PYEXIT=%ERRORLEVEL%
 
 echo.
-echo ============================================
-echo Done! Results saved to:
-echo %~dp0output.txt
-echo ============================================
+if %PYEXIT% NEQ 0 (
+    echo ============================================
+    echo ERROR: Python script failed (exit code %PYEXIT%)
+    echo Check %~dp0error_log.txt for details
+    echo ============================================
+) else (
+    echo ============================================
+    echo Done! Results saved to:
+    echo %~dp0output.txt
+    echo ============================================
+    echo.
+    echo Opening output.txt...
+    start notepad "%~dp0output.txt"
+)
 echo.
 pause
 goto MENU
